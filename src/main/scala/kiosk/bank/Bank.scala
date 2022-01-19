@@ -57,7 +57,6 @@ object Bank extends App {
        |      val removeProof = getVar[Coll[Byte]](0).get
        |      val lookupProof = getVar[Coll[Byte]](1).get
        |      
-       |      
        |      val withdrawAmtCollByte = inLedgerTree.get(withdrawKey, lookupProof).get
        |      
        |      val userBalance = byteArrayToLong(withdrawAmtCollByte)

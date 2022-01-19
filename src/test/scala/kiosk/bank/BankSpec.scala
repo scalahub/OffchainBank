@@ -17,16 +17,12 @@ import sigmastate.eval.CostingSigmaDslBuilder.longToByteArray
 import supertagged.@@
 
 class BankSpec extends PropSpec with Matchers with ScalaCheckDrivenPropertyChecks with HttpClientTesting {
-  // create a valid tree
   val KL = 32
   val VL = 8
 
-  // insert some data
   val dummyPubKey = ADKey @@ Array.fill(KL)(0.toByte)
   val dummyValue = ADValue @@ longToByteArray(1234L).toArray
   val dummyKey: Array[Byte] @@ authds.ADKey.Tag = ADKey @@ Blake2b256(dummyPubKey).take(KL)
-
-  val ergoClient = createMockedErgoClient(MockData(Nil, Nil))
 
   val dummyNanoErgs = 10000000000000L
   val dummyScript = "sigmaProp(true)"
@@ -64,6 +60,8 @@ class BankSpec extends PropSpec with Matchers with ScalaCheckDrivenPropertyCheck
       .build()
       .convertToInputWith(dummyTxId, dummyIndex)
   }
+
+  val ergoClient = createMockedErgoClient(MockData(Nil, Nil))
 
   property("Update root hash") {
     ergoClient.execute { implicit ctx: BlockchainContext =>
