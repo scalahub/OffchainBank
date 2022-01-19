@@ -56,12 +56,13 @@ object Bank extends App {
        |
        |      val removeProof = getVar[Coll[Byte]](0).get
        |      val lookupProof = getVar[Coll[Byte]](1).get
-       |      val withdrawIndex = getVar[Int](2).get
+       |      
        |      
        |      val withdrawAmtCollByte = inLedgerTree.get(withdrawKey, lookupProof).get
+       |      
        |      val userBalance = byteArrayToLong(withdrawAmtCollByte)
        |      
-       |      val removedTree = outLedgerTree.remove(Coll(withdrawKey), removeProof).get
+       |      val removedTree = inLedgerTree.remove(Coll(withdrawKey), removeProof).get
        |        
        |      val correctAmount = withdrawValue == userBalance
        |      val correctBalance = out.tokens(1)._2 == SELF.tokens(1)._2 - withdrawValue 
@@ -72,7 +73,7 @@ object Bank extends App {
        |      removedTree == outLedgerTree &&
        |      correctAmount                &&
        |      correctBalance               &&
-       |      correctTokenId               
+       |      correctTokenId
        |    }
        |    
        |    sigmaProp((validBankSpend || makeDefunct || isWithdraw) && validSuccessor)
