@@ -5,7 +5,7 @@ import kiosk.script.ScriptUtil
 
 object Bank extends App {
   lazy val minStorageRent = 100000L
-
+  lazy val timeOut = 5
   lazy val bankScript =
     s""" // this box
        | // R4 root hash (Coll[Byte])
@@ -15,6 +15,8 @@ object Bank extends App {
        | // tokens(0) = bankNFT
        | // tokens(1) = bank issues tokens
        | {
+       |    val timeOut = $timeOut
+       |    
        |    val inCreationHeight = SELF.creationInfo._1
        |    val inLedgerTree = SELF.R4[AvlTree].get
        |    val inBankPubKey = SELF.R5[GroupElement].get
@@ -41,10 +43,10 @@ object Bank extends App {
        |    }
        |    
        |    val makeDefunct = {
-       |      ! inIsDefunct                     &&
-       |      outIsDefunct                      &&
-       |      inCreationHeight < HEIGHT - 1000  &&
-       |      outLedgerTree == inLedgerTree     &&
+       |      ! inIsDefunct                        &&
+       |      outIsDefunct                         &&
+       |      inCreationHeight < HEIGHT - timeOut  &&
+       |      outLedgerTree == inLedgerTree        &&
        |      out.tokens == SELF.tokens         
        |    }
        |    
