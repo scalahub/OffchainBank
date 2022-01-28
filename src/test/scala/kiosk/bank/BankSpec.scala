@@ -5,7 +5,7 @@ import kiosk.appkit.Client
 import kiosk.bank.Bank.{minStorageRent, timeOut}
 import kiosk.encoding.ScalaErgoConverters
 import kiosk.encoding.ScalaErgoConverters.{stringToGroupElement => str2Grp}
-import kiosk.ergo.{ByteArrayToBetterByteArray, DhtData, KioskAvlTree, KioskBox, KioskCollByte, KioskGroupElement, KioskInt}
+import kiosk.ergo.{ByteArrayToBetterByteArray, DhtData, KioskAvlTree, KioskBox, KioskCollByte, KioskGroupElement, KioskInt, StringToBetterString}
 import kiosk.tx.TxUtil
 import org.ergoplatform.appkit._
 import org.scalatest.{Matchers, PropSpec}
@@ -81,7 +81,7 @@ class BankSpec extends PropSpec with Matchers with ScalaCheckDrivenPropertyCheck
           avlProver.performOneOperation(Insert(userKey, userValue))
           avlProver.generateProof()
           val digest32: Array[Byte] = avlProver.digest
-          println("digest original" + digest32.encodeHex)
+          println("digest original " + digest32.encodeHex)
 
           val bankBox = TxUtil
             .createTx(
@@ -118,8 +118,8 @@ class BankSpec extends PropSpec with Matchers with ScalaCheckDrivenPropertyCheck
           val removeProof: Array[Byte] = avlProver.generateProof()
 
           val digestOut = avlProver.digest
-          println("remove proof" + removeProof.encodeHex)
-          println("lookup proof" + lookupProof.encodeHex)
+          println("remove proof " + removeProof.encodeHex)
+          println("lookup proof " + lookupProof.encodeHex)
           println("digest " + digestOut.encodeHex)
           TxUtil.createTx(
             Array(
@@ -213,7 +213,7 @@ class BankSpec extends PropSpec with Matchers with ScalaCheckDrivenPropertyCheck
             changeAddress,
             Array[String](dummySecretProd),
             Array[DhtData](),
-            true
+            false
           )(ctxProd)
         }
       }
