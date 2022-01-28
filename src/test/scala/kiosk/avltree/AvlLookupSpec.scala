@@ -103,8 +103,6 @@ class AvlLookupSpec extends PropSpec with Matchers with ScalaCheckDrivenProperty
 
   property("LookupProd") {
 
-    val ergoClient = createMockedErgoClient(MockData(Nil, Nil))
-
     Client.usingContext { implicit ctx: BlockchainContext =>
       val minStorageRent = 1000000L
 
