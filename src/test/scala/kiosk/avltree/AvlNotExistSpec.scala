@@ -181,9 +181,9 @@ class AvlNotExistSpec extends PropSpec with Matchers with ScalaCheckDrivenProper
           ),
           fee = 1000000L,
           changeAddress,
-          Array[String](),
+          Array[String](proveDlogSecret),
           Array[DhtData](),
-          false
+          true
         )
       }
     }
