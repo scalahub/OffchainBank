@@ -1,4 +1,4 @@
-package kiosk.bank
+package kiosk.bank.v2
 
 import kiosk.encoding.ScalaErgoConverters.{getAddressFromErgoTree, getStringFromAddress}
 import kiosk.script.ScriptUtil
@@ -37,7 +37,7 @@ object Bank extends App {
        |    }
        |    
        |    val validBankSpend = {
-       |      ! inIsDefunct                   &&
+       |      ! outIsDefunct                  &&
        |      proveDlog(inBankPubKey)         && 
        |      outCreationHeight > HEIGHT - 10 
        |    }
@@ -56,8 +56,8 @@ object Bank extends App {
        |      val withdrawValue = withdrawBox.tokens(0)._2
        |      val withdrawKey = blake2b256(withdrawBox.propositionBytes)
        |
-       |      val removeProof = getVar[Coll[Byte]](0).get
-       |      val lookupProof = getVar[Coll[Byte]](1).get
+       |      val removeProof = withdrawBox.R4[Coll[Byte]].get
+       |      val lookupProof = withdrawBox.R4[Coll[Byte]].get
        |      
        |      val withdrawAmtCollByte = inLedgerTree.get(withdrawKey, lookupProof).get
        |      
@@ -82,5 +82,6 @@ object Bank extends App {
        |""".stripMargin
   lazy val bankErgoTree = ScriptUtil.compile(Map(), bankScript)
   lazy val bankAddress = getStringFromAddress(getAddressFromErgoTree(bankErgoTree))
+  println(bankScript)
   println(bankAddress)
 }

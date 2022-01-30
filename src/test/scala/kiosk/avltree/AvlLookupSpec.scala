@@ -101,7 +101,7 @@ class AvlLookupSpec extends PropSpec with Matchers with ScalaCheckDrivenProperty
     }
   }
 
-  property("LookupProd") {
+  ignore("LookupProd") {
 
     Client.usingContext { implicit ctx: BlockchainContext =>
       val minStorageRent = 1000000L
